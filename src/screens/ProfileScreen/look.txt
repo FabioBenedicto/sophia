@@ -1,0 +1,58 @@
+import React, { useState } from "react";
+import { View, Image, ScrollView, Text } from "react-native";
+
+import { Header } from "../../components/Header";
+
+import { MyLockerText } from "../../components/MyLockerText";
+
+import DefaultProfilePicture from '../../assets/DefaultProfilePicture.jpg'
+import NoLockersFounded from '../../assets/NoLockersFounded.png'
+
+import { GLOBAL } from "../../themes/global";
+import { DARK } from "../../themes/dark";
+import { LIGHT } from "../../themes/light";
+
+import { styles } from "./styles";
+import { Button } from "../../components/Button";
+
+export function HomeScreen() {
+    const darkTheme = false;
+    const loading = false;
+    const [teste, setTeste] = useState<number>(0);
+    const handleTextLayout = (event) => {
+        const { length } = event.nativeEvent.lines;
+        console.log("Rodou a função");
+        if (length > 1) {
+            setTeste((length - 1) * 20);
+        }
+    };
+    return (
+        <View style={[styles.container]}>
+            <Header backgroundColor={GLOBAL.COLORS.BACKGROUND_HEADER} />
+            <View style={styles.teste}>
+                <View style={{width: '100%'}}>
+                    <View style={[styles.userData]}>
+                        <Image source={DefaultProfilePicture} style={styles.profileImage} />
+                        <View style={[styles.userDataText, { width: 'auto', flexWrap: 'wrap' }]}>
+                            <View style={{ marginTop: teste }}>
+                                <MyLockerText onTextLayout={handleTextLayout} fontSize={GLOBAL.FONT_SIZE.LG} color={darkTheme ? DARK.COLORS.TEXT_PRIMARY : LIGHT.COLORS.TEXT_PRIMARY}>Fisrt and Last name</MyLockerText>
+                                <MyLockerText fontSize={GLOBAL.FONT_SIZE.MD} color={darkTheme ? DARK.COLORS.TEXT_SECONDARY : LIGHT.COLORS.TEXT_SECONDARY}>email@g.unicamp.br</MyLockerText>
+                            </View>
+                        </View>
+                    </View>
+                    <View style={{width: '100%'}}>
+                        <MyLockerText fontSize={GLOBAL.FONT_SIZE.LG} color={darkTheme ? DARK.COLORS.TEXT_PRIMARY : LIGHT.COLORS.TEXT_PRIMARY}>Meu Armário</MyLockerText>
+                        <View style={styles.line} />
+                        <View style={{alignItems: 'center'}}>
+                        <Image source={NoLockersFounded} />
+                        <MyLockerText fontSize={GLOBAL.FONT_SIZE.SM} color={darkTheme ? DARK.COLORS.DISABLED : LIGHT.COLORS.TEXT_PRIMARY}>Nenhum armário alugado</MyLockerText>
+                        </View>
+                    </View>
+                </View>
+                <Button loading={loading} darkTheme={darkTheme}>
+                    Alugar um armário
+                </Button>
+            </View>
+        </View>
+    )
+}
