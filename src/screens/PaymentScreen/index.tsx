@@ -21,7 +21,7 @@ export function PaymentScreen() {
     return (
         <>
          {
-            isVisible ? <Modal /> : null
+            isVisible ? <Modal setIsVisible={setIsVisible} /> : null
         }
         <View style={styles.container}>
             <View style={styles.textContainer}>

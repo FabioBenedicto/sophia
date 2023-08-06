@@ -1,17 +1,18 @@
 import { View, Text } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, Value, withTiming } from 'react-native-reanimated';
-import { GestureDetector, Gesture } from 'react-native-gesture-handler';
+import { GestureDetector, Gesture, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 import { styles } from './styles';
+import { Button } from '../Button';
 
-export function Modal() {
-  const position = useSharedValue(0);
+export function Modal({setIsVisible}) {
+  const position = useSharedValue(140);
 
     const rotationGesture = Gesture
         .Pan()
-        .minPointers(2)
+        .minPointers(1)
         .onUpdate((event) => {
-            position.value = event.translationY
+            position.value = -event.translationY
 
             if (event.translationY >= 0) {
                 console.log('INDO PARA A DIREITA!');
@@ -22,24 +23,26 @@ export function Modal() {
 
 
     const animatedStyle = useAnimatedStyle(() => ({
-        transform: [{ translateY: position.value }]
+        height: position.value
     }));
 
     return (
-        <View style={{ position: 'absolute', width: '100%', height: '100%', backgroundColor: 'red', zIndex: 2 }}>
+            <View style={{ position: 'absolute', bottom: 0, width: '100%', height: '100%', zIndex: 2, backgroundColor: 'red', justifyContent: 'flex-end' }}> 
+                <Button darkTheme={false} loading={false} onPress={()=>{setIsVisible(false)}}>
+                    Aqui
+                </Button>
             <GestureDetector gesture={rotationGesture}>
                 <Animated.View style={[{
-                    width: 150,
-                    height: 150,
-                    borderRadius: 12,
+                    width: '100%',
+                    height: 140,
+                    borderTopLeftRadius: 10,
+                    borderTopRightRadius: 10,
                     backgroundColor: '#8527e5',
                     zIndex: 1,
-                    flexDirection: 'row',
-                    alignSelf: 'flex-end'
                 }, animatedStyle]}>
                     <Text>Teste</Text>
                 </Animated.View>
             </GestureDetector>
-        </View>
+            </View>
   )
 }

@@ -36,12 +36,13 @@ export function Container({children} : ContainerProps) {
       onLayout={(event) => {
         if (!isKeyboardVisible) {
           setContainerHeight(event.nativeEvent.layout.height);
+          console.log("eae");
         }
       }}
       bounces={false}
     >
-      <KeyboardAvoidingView>
-        <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss();}}>
+      <KeyboardAvoidingView >
+        <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss();}} >
             <View style={[styles.container, {height: containerHeight}]}>
               {children}
             </View>
